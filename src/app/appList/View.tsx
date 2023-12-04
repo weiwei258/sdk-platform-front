@@ -27,7 +27,6 @@ export const PageView = ({ appList }: { appList: App[] }) => {
     <>
       <div className='mb-5 flex flex-row-reverse'>
         <CreateModalButton onOk={onOK} />
-        <Button className='mr-5' >测试应用</Button>
       </div>
       <Space wrap>
         {appList.map(item => (
@@ -42,7 +41,7 @@ export const PageView = ({ appList }: { appList: App[] }) => {
                 key='edit'
                 size='small'
                 type='link'
-                onClick={() => router.push(`/testApp/${item.appId}`)}
+                onClick={() => router.push(`/${item.appId}/testApp`)}
               >
                 测试应用
               </Button>,

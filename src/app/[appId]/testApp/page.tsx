@@ -1,6 +1,6 @@
 import { getToken } from '@/utils/serverUtils'
 import { PageView } from './View'
-import { getAppId } from './serverHelper'
+import { getAppId } from '../helper'
 import { getAppInfo } from './testApp.api'
 
 const Page = async () => {

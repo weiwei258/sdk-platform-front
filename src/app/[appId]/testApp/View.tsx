@@ -7,18 +7,18 @@ import { EagleTracker } from '@eagle-tracker/core';
 import { AppInfo } from '@/app/appList/appList.api';
 
 export const PageView = ({ appInfo }: { appInfo: AppInfo }) => {
-  const { appId, appKey } = appInfo
+  const { appId, appKey } = appInfo;
 
   useEffect(() => {
-    // const instance = new EagleTracker({
-    //   isTest: false,
-    //   sendMode: '',
-    //   postUrl: 'http://127.0.0.1:7001/logs',
-    //   appId,
-    //   // appKey,
-    //   uid: '88888',
-    // })
-    // instance.start()
+    const instance = new EagleTracker({
+      isTest: false,
+      sendMode: 'post',
+      dsn: 'http://127.0.0.1:7001/logs',
+      appId,
+      appKey,
+      uid: '88888',
+    })
+    instance.start()
   }, [appId, appKey])
 
   return (

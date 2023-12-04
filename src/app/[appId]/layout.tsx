@@ -16,6 +16,7 @@ const PageMap: Record<string, string> = {
   performanceTracker: '页面性能',
   logSearcher: '日志查询',
   errorProfiler: '异常分析',
+  testApp: '测试app',
   // 5: '页面访问',
   // 6: 'API监控',
   // 7: '静态资源',
@@ -115,7 +116,7 @@ const AppAdminLayout: React.FC<PropsWithChildren> = (props) => {
 
         </Header>
         <Content
-          className="m-[24px] mx-[16px] p-[24px] min-[280px]"
+          className="m-[24px] mx-[16px] p-[24px] min-[280px] h-full overflow-auto"
           style={{ background: colorBgContainer }}
         >
           {children}

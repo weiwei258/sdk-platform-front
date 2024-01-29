@@ -1,19 +1,16 @@
-import { LogsParams, getLogs } from '@/service/commonApi';
+import { LogsParams, getLogs, getLogsWithServeSide } from '@/service/commonApi';
 
-import { TransportStructure, TransportCategory, ResourceItem } from '@eagle-tracker/types';
+import { TransportStructure, TransportCategory, IErrorLog } from '@eagle-tracker/types';
+import { ErrorProfilerLog } from './types';
 
 
-export interface ErrorProfilerLog extends Omit<TransportStructure, 'context' | 'category'> {
-  category: TransportCategory.ERROR;
-  content: ResourceItem[]
-}
-
-export const getErrorProfilerLogs = (token: string, appId: LogsParams['appId']) => {
-  return getLogs<ErrorProfilerLog[]>(
+export const getErrorProfilerLogsWithServerSide = (token: string, appId: LogsParams['appId']) => {
+  return getLogsWithServeSide<ErrorProfilerLog[]>(
     token,
     {
       appId,
-      category: TransportCategory.ERROR
+      category: TransportCategory.ERROR,
     }
   )
 }
+

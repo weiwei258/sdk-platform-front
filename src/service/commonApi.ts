@@ -1,4 +1,4 @@
-import { serverRequestCommon } from "./request"
+import requestCommon, { serverRequestCommon } from "./request"
 import { TransportCategory } from '@eagle-tracker/types';
 
 export const ckeckTokenRequest = (token: string | undefined) => {
@@ -12,15 +12,26 @@ export const ckeckTokenRequest = (token: string | undefined) => {
 }
 
 export interface LogsParams {
-  category:  TransportCategory;
+  category: TransportCategory;
   appId: string;
+  dateRange?: [string, string]
 }
-export const getLogs = <T = any>(token: string, logsParams: LogsParams) => {
+
+export const getLogsWithServeSide = <T = any>(token: string, logsParams: LogsParams) => {
   return serverRequestCommon<T>({
-    url: '/logs',
-    params: logsParams,
+    url: '/getLogs',
+    method:'POST',
+    data: logsParams,
     headers: {
       Authorization: token
     }
+  })
+}
+
+export const getLogs = <T = any>(logsParams: LogsParams) => {
+  return requestCommon<T>({
+    url: '/getLogs',
+    method:'POST',
+    data: logsParams,
   })
 }

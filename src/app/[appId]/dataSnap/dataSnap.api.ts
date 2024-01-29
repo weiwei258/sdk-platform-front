@@ -1,4 +1,4 @@
-import { LogsParams, getLogs } from '@/service/commonApi';
+import { LogsParams, getLogsWithServeSide } from '@/service/commonApi';
 
 import { TransportStructure, TransportCategory, ResourceItem } from '@eagle-tracker/types';
 
@@ -9,7 +9,7 @@ export interface ResourceLog extends Omit<TransportStructure, 'context' | 'categ
 }
 
 export const getResourceLogs = (token: string, appId: LogsParams['appId']) => {
-  return getLogs<ResourceLog[]>(
+  return getLogsWithServeSide<ResourceLog[]>(
     token,
     {
       appId,

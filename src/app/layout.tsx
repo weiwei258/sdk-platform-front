@@ -5,7 +5,7 @@ import { headers } from 'next/headers';
 
 import { redirect } from 'next/navigation';
 
-import LayoutComponent from '@/components/layout'
+import LayoutComponent from '@/components/Layout'
 import StyledComponentsRegistry from '@/lib/AntdRegistry';
 import { ckeckTokenRequest } from '@/service/commonApi';
 import { getToken } from '@/utils/serverUtils';

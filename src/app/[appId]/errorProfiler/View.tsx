@@ -4,7 +4,7 @@ import { Card, Typography } from "antd";
 import { SearchForm, SearchFormProps } from "@/components/SearchForm/SearchForm";
 import { JsErrArrayTable, OtherErrTable, WrongRankingTable, ErrChart } from "./components";
 import { ErrorProfilerLog, JsErrType } from "./types";
-import { getErrorProfiler } from './errorProfiler.client';
+import { getErrorProfiler } from './errorProfiler.api';
 
 const { Title } = Typography
 
@@ -39,8 +39,12 @@ export const View = ({ data: initailData, appId }: { data: ErrorProfilerLog[], a
         <SearchForm onSearch={onSearch}></SearchForm>
       </Card>
       <Card className="mb-4">
+        <Title level={5} style={{ marginBottom: '20px' }} className="mb-2">异常分析</Title>
+        <ErrChart data={data} />
+      </Card>
+      <Card className="mb-4">
         <Title level={5} style={{ marginBottom: '20px' }} className="mb-2">JS错误</Title>
-        <JsErrArrayTable data={jsErrArray} />
+        <JsErrArrayTable appId={appId} data={jsErrArray} />
       </Card>
       <Card className="mb-4">
         <Title level={5} style={{ marginBottom: '20px' }} className="mb-2">JS错误排行</Title>
@@ -49,10 +53,6 @@ export const View = ({ data: initailData, appId }: { data: ErrorProfilerLog[], a
       <Card>
         <Title level={5} style={{ marginBottom: '20px' }} className="mb-2">其它错误</Title>
         <OtherErrTable data={otherErrArray} />
-      </Card>
-      <Card>
-        <Title level={5} style={{ marginBottom: '20px' }} className="mb-2">异常分析</Title>
-        <ErrChart data={data} />
       </Card>
     </div>
   )

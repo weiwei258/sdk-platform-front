@@ -14,21 +14,19 @@ export const ReactEchart = (props: ReactEchartProps) => {
   const echartInstanceRef = useRef<echarts.ECharts>()
   useEffect(() => {
     if (domRef.current && option) {
-      setTimeout(()=>{
-        const echartInstance = init(domRef.current,null,{
-          width: parseInt(getComputedStyle(domRef.current!).width)
-        })
-        echartInstance.setOption(option)
-        echartInstanceRef.current = echartInstance
+      const echartInstance = init(domRef.current, null, {
+        width: parseInt(getComputedStyle(domRef.current!).width)
       })
+      echartInstanceRef.current = echartInstance
     }
   }, [domRef.current, option])
 
   useEffect(() => {
-    if (echartInstanceRef.current && option) {
+
+    if (echartInstanceRef.current && option && domRef.current) {
       echartInstanceRef.current.setOption(option)
     }
-  }, [echartInstanceRef.current, option])
+  }, [echartInstanceRef.current, option, domRef.current])
 
   return (
     <div style={{ width, height }} ref={domRef}></div>

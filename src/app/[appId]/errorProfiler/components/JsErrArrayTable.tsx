@@ -7,8 +7,9 @@ import { ErrStackDrawer } from "./ErrStackDrawer";
 
 interface JsErrArrayTableProps {
   data: JsErrType[]
+  appId: string;
 }
-export const JsErrArrayTable = ({ data }: JsErrArrayTableProps) => {
+export const JsErrArrayTable = ({ data, appId }: JsErrArrayTableProps) => {
 
   const columns: ColumnsType<JsErrType> = [
     {
@@ -35,7 +36,7 @@ export const JsErrArrayTable = ({ data }: JsErrArrayTableProps) => {
       key: 'stack',
       dataIndex: 'stack',
       render: (_, { context: { stack } }) => (
-        <ErrStackDrawer errStack={stack} />
+        <ErrStackDrawer appId={appId} errStack={stack} />
       ),
     },
   ];

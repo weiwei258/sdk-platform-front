@@ -10,3 +10,9 @@ export interface ResourceErrLog extends Omit<TransportStructure, 'context' | 'ca
   category: TransportCategory.RSERROR;
   context: RSErrorLog
 }
+
+export interface ResourceFailItem {
+  value: number
+  percent: number
+  url: string
+}

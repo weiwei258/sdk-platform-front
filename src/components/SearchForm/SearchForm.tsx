@@ -61,9 +61,9 @@ const RangeStrPicker = (props: RangeStrPickerProps) => {
 
     if (!value) {
       onChange?.(undefined)
+      return
     }
 
-    console.log(formatString)
     onChange?.(formatString)
   }
 

@@ -121,5 +121,5 @@ export const ErrChart = (props: ErrChartProps) => {
     }
   }, [data])
 
-  return <ReactEchart option={option} width={undefined} height={undefined} />
+  return <ReactEchart option={option} />
 }

@@ -20,7 +20,7 @@ export interface LogsParams {
 export const getLogsWithServeSide = <T = any>(token: string, logsParams: LogsParams) => {
   return serverRequestCommon<T>({
     url: '/getLogs',
-    method:'POST',
+    method: 'POST',
     data: logsParams,
     headers: {
       Authorization: token
@@ -31,7 +31,7 @@ export const getLogsWithServeSide = <T = any>(token: string, logsParams: LogsPar
 export const getLogs = <T = any>(logsParams: LogsParams) => {
   return requestCommon<T>({
     url: '/getLogs',
-    method:'POST',
+    method: 'POST',
     data: logsParams,
   })
 }

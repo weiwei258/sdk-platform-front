@@ -1,24 +1,49 @@
 "use client";
 
-import { useRouter } from "next/navigation";
 import { ResourceItemLog, ResourceErrLog } from "./types";
-import JSONView from 'react-json-view';
-import { useEffect } from "react";
-import { calcResourceFailTop, calcResourceSuccessTop, getClassificationManager } from "./helper";
+import { useState } from "react";
+import { FailResourceTable } from './components/FailResourceTable'
+import { Card, Typography } from "antd";
+import { SearchForm } from "@/components/SearchForm";
+import { ResourceEchart, SuccessResourceTable } from "./components";
+import { SearchFormProps } from "@/components/SearchForm/SearchForm";
+import { getResourceErrLogs, getResourceLogs } from './errorProfiler.api'
 
-export const View = ({ data, errData }: { data: ResourceItemLog[], errData: ResourceErrLog[] }) => {
-  const router = useRouter()
-  console.info({ data, errData })
+const { Title } = Typography
 
-  useEffect(() => {
-    const map = getClassificationManager(data, errData)
-    const map2 = calcResourceSuccessTop(data, errData)
-    const map3 = calcResourceFailTop(errData)
-    console.log('map', { map, map2, map3 })
-  }, [])
+export const View = ({ data: initialData, errData: initialErrData, appId }: { data: ResourceItemLog[], errData: ResourceErrLog[], appId: string }) => {
+
+  const [data, setData] = useState(initialData)
+
+  const [errData, setErrData] = useState(initialErrData)
+
+  const onSearch: SearchFormProps['onSearch'] = async (values) => {
+    const { data } = await getResourceLogs({ ...values, appId })
+    const { data: errData } = await getResourceErrLogs({ ...values, appId })
+    setData(data)
+    setErrData(errData)
+  }
 
   return (
-    <JSONView src={data} />
+    <div style={{ background: '#f5f5f5' }}>
+      <Card className="mb-4">
+        <SearchForm onSearch={onSearch}></SearchForm>
+      </Card>
+      <Card className="mb-4">
+        <Title level={5} style={{ marginBottom: '20px' }} className="mb-2">静态资源视图</Title>
+        <ResourceEchart data={data} errData={errData} />
+      </Card>
+      <Card className="mb-4">
+        <Title level={5} style={{ marginBottom: '20px' }} className="mb-2">
+          资源请求 TOP 视图
+        </Title>
+        <SuccessResourceTable data={data} errData={errData} />
+      </Card>
+      <Card className="mb-4">
+        <Title level={5} style={{ marginBottom: '20px' }} className="mb-2">资源请求失败 TOP 视图</Title>
+        <FailResourceTable errData={errData} />
+      </Card>
+    </div>
   )
 }
 

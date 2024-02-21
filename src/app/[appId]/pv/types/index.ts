@@ -1,3 +1,4 @@
 import { TransportStructure } from "@eagle-tracker/types/src/transport";
 
-export type PerformanceType = TransportStructure
+
+export type PvType = TransportStructure

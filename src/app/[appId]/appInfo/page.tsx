@@ -1,9 +1,7 @@
 import { getToken } from "@/utils/serverUtils"
-import { getAppId } from "../helper"
 
-const Page = () => {
+const Page = ({ params: { appId } }: { params: { appId: string } }) => {
   const token = getToken()
-  const appId = getAppId()
 
   return <div>Info</div>
 }

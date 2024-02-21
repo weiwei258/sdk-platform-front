@@ -11,11 +11,11 @@ function matchStr(str: string) {
   if (str.endsWith('.js')) return str.substring(str.lastIndexOf('/') + 1);
 }
 
-function loadSourceMap(fileName: string) {
+function loadSourceMap(fileName: string,appId:string) {
   let file = matchStr(fileName);
   if (!file) return;
   return new Promise((resolve) => {
-    fetch(`http://localhost:7001/static/uploads/mapFile/mGGeXsyR/${file}.map`).then((response) => {
+    fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/static/uploads/mapFile/${appId}/${file}.map`).then((response) => {
       console.log(response)
       resolve(response.json());
     });
@@ -26,11 +26,12 @@ type FindCodeBySourceMapParams = {
   fileName: string;
   line: number;
   column: number;
+  appId:string;
 }
-export const findCodeBySourceMap = async ({ fileName, line, column }: FindCodeBySourceMapParams) => {
+export const findCodeBySourceMap = async ({ fileName, line, column,appId }: FindCodeBySourceMapParams) => {
   // console.log('findCodeBySourceMap', { fileName, line, column })
   // console.log('fileName', fileName);
-  let sourceData: any = await loadSourceMap(fileName);
+  let sourceData: any = await loadSourceMap(fileName,appId);
   if (!sourceData) return;
   let { sourcesContent, sources } = sourceData;
   // console.log('sourceData', sourceData)

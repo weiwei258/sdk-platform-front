@@ -1,5 +1,5 @@
 import dayjs from "dayjs"
-import { ResourceErrLog, ResourceItemLog } from "./types"
+import { ResourceErrLog, ResourceFailItem, ResourceItemLog } from "./types"
 
 class ResourceManager {
   logSum: number = 0
@@ -42,13 +42,13 @@ class ResourceManager {
   calc() {
     const { successSum, elapsedTime, logSum } = this
     this.averageTime = elapsedTime / successSum
-    this.successPercentage = successSum / logSum
-    this.elapsedTimePercentage['0-0.5'] = this.elapsedTimecollect['0-0.5'] / logSum
-    this.elapsedTimePercentage['0.5-1'] = this.elapsedTimecollect['0.5-1'] / logSum
-    this.elapsedTimePercentage['1-3'] = this.elapsedTimecollect['1-3'] / logSum
-    this.elapsedTimePercentage['3-5'] = this.elapsedTimecollect['3-5'] / logSum
-    this.elapsedTimePercentage['5-10'] = this.elapsedTimecollect['5-10'] / logSum
-    this.elapsedTimePercentage['10+'] = this.elapsedTimecollect['10+'] / logSum
+    this.successPercentage = (successSum / logSum) * 100
+    this.elapsedTimePercentage['0-0.5'] = (this.elapsedTimecollect['0-0.5'] / logSum) * 100
+    this.elapsedTimePercentage['0.5-1'] = (this.elapsedTimecollect['0.5-1'] / logSum) * 100
+    this.elapsedTimePercentage['1-3'] = (this.elapsedTimecollect['1-3'] / logSum) * 100
+    this.elapsedTimePercentage['3-5'] = (this.elapsedTimecollect['3-5'] / logSum) * 100
+    this.elapsedTimePercentage['5-10'] = (this.elapsedTimecollect['5-10'] / logSum) * 100
+    this.elapsedTimePercentage['10+'] = (this.elapsedTimecollect['10+'] / logSum) * 100
   }
 
 }
@@ -132,17 +132,21 @@ export const getClassificationManager = (data: ResourceItemLog[], errData: Resou
   return classificationManager.calcDateResourceManagerMap()
 }
 
-class ResourceSuccessManager {
+export class ResourceSuccessManager {
   logSum: number = 0
   elapsedTime: number = 0
   averageTime: number = 0
   successSum: number = 0
   failSum: number = 0
   successPercentage: number = 0
+  url: string = ''
+  constructor(url: string) {
+    this.url = url
+  }
   calc() {
     const { logSum, successSum, elapsedTime } = this
     this.averageTime = elapsedTime / successSum
-    this.successPercentage = successSum / logSum
+    this.successPercentage = (successSum / logSum) * 100
   }
 }
 
@@ -151,7 +155,7 @@ class ResourceSuccessListManager {
   public setResourceData(data: ResourceItemLog) {
     const { resourceSuccessManagerMap } = this
     data.context.forEach(item => {
-      const resourceSuccessManager = resourceSuccessManagerMap.get(item.name) || new ResourceSuccessManager
+      const resourceSuccessManager = resourceSuccessManagerMap.get(item.name) || new ResourceSuccessManager(item.name)
       resourceSuccessManager.logSum += 1
       resourceSuccessManager.successSum += 1
       resourceSuccessManager.elapsedTime += item.loadTime
@@ -161,7 +165,7 @@ class ResourceSuccessListManager {
   }
   public setResourceErrData(data: ResourceErrLog) {
     const { resourceSuccessManagerMap } = this
-    const resourceSuccessManager = resourceSuccessManagerMap.get(data.context.url) || new ResourceSuccessManager
+    const resourceSuccessManager = resourceSuccessManagerMap.get(data.context.url) || new ResourceSuccessManager(data.context.url)
     resourceSuccessManager.logSum += 1
     resourceSuccessManager.failSum += 1
     resourceSuccessManagerMap.set(data.context.url, resourceSuccessManager)
@@ -177,21 +181,23 @@ export const calcResourceSuccessTop = (data: ResourceItemLog[], errData: Resourc
   const resourceSuccessManager = new ResourceSuccessListManager()
   data.forEach((item) => resourceSuccessManager.setResourceData(item))
   errData.forEach((item) => resourceSuccessManager.setResourceErrData(item))
-  return resourceSuccessManager.calc()
+  return Array.from(resourceSuccessManager.calc().values())
 }
 
+
+
 export const calcResourceFailTop = (errData: ResourceErrLog[]) => {
-  const resourceFailMap = new Map<string, { value: number, percent: number }>()
+  const resourceFailMap = new Map<string, ResourceFailItem>()
   let count = 0
   errData.forEach((item) => {
     count++
-    const resourceFail = resourceFailMap.get(item.context.url) || { value: 0, percent: 0 }
+    const resourceFail = resourceFailMap.get(item.context.url) || { value: 0, percent: 0, url: item.context.url }
     resourceFail.value += 1
     resourceFailMap.set(item.context.url, resourceFail)
   })
   Array.from(resourceFailMap.values()).forEach(item => {
-    item.percent = item.value / count
+    item.percent = (item.value / count) * 100
   })
 
-  return resourceFailMap
+  return Array.from(resourceFailMap.values())
 }

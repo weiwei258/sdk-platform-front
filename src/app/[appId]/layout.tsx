@@ -12,13 +12,14 @@ import {
 const { Header, Sider, Content } = Layout;
 
 const PageMap: Record<string, string> = {
-  dataSnap: '数据总览',
-  performanceTracker: '页面性能',
-  logSearcher: '日志查询',
+  // dataSnap: '数据总览',
+  performance: '页面性能',
+  // logSearcher: '日志查询',
   errorProfiler: '异常分析',
   testApp: '测试app',
   resource: '静态资源',
-  // 5: '页面访问',
+  mapManager:'管理map文件',
+  pv: '页面访问',
   // 6: 'API监控',
   // 7: '静态资源',
   // 8: '自定义上报',

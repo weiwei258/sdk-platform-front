@@ -1,6 +1,6 @@
 'use client';
 
-import { Button, Form, Input,message } from 'antd';
+import { Button, Form, Input, message } from 'antd';
 import { useState } from 'react';
 import { loginRequest, LoginType, registerRequest } from './login.api'
 import Cookies from 'js-cookie';
@@ -60,6 +60,7 @@ const Login: React.FC<LoginProps> = (props) => {
       <Form.Item<LoginType>
         label="账号"
         name="account"
+        initialValue='admin'
         rules={[{ required: true, message: '请输入账号' }]}
       >
         <Input />
@@ -68,6 +69,7 @@ const Login: React.FC<LoginProps> = (props) => {
       <Form.Item<LoginType>
         label="密码"
         name="password"
+        initialValue='admin'
         rules={[{ required: true, message: '请输入密码' }]}
       >
         <Input.Password />

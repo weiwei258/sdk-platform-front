@@ -1,10 +1,8 @@
 import { getToken } from '@/utils/serverUtils'
 import { PageView } from './View'
-import { getAppId } from '../helper'
 import { getAppInfo } from './testApp.api'
 
-const Page = async () => {
-  const appId = getAppId()
+const Page = async ({ params: { appId } }: { params: { appId: string } }) => {
   const token = getToken()
   const { data } = await getAppInfo(token!, appId)
 

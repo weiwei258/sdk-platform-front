@@ -1,25 +1,10 @@
 "use client";
 
 import { Button, Input, Space, } from 'antd'
-import { useEffect, useState } from 'react';
 import { triggerPromiseError, triggerJSError, httpError, fetchError, ImageError } from './helper';
-import { EagleTracker } from '@eagle-tracker/core';
 import { AppInfo } from '@/app/appList/appList.api';
 
 export const PageView = ({ appInfo }: { appInfo: AppInfo }) => {
-  const { appId, appKey } = appInfo;
-
-  useEffect(() => {
-    const instance = new EagleTracker({
-      isTest: false,
-      sendMode: 'post',
-      dsn: 'http://127.0.0.1:7001/logs',
-      appId,
-      appKey,
-      uid: '88888',
-    })
-    instance.start()
-  }, [appId, appKey])
 
   return (
     <div className='flex justify-center mt-40'>

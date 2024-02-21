@@ -1,16 +1,14 @@
 import { getToken } from '@/utils/serverUtils'
 import { View } from './View'
-import { getAppId } from '../helper'
 import { getResourceErrLogsWithServerSide, getResourceLogsWithServerSide } from './errorProfiler.api'
 
-const Page = async () => {
+const Page = async ({ params: { appId } }: { params: { appId: string } }) => {
   const token = getToken()
-  const appId = getAppId()
 
   const { data } = await getResourceLogsWithServerSide(token!, appId)
   const { data: errData } = await getResourceErrLogsWithServerSide(token!, appId)
 
-  return <View data={data} errData={errData} />
+  return <View appId={appId} data={data} errData={errData} />
 }
 
 export default Page

@@ -5,9 +5,10 @@ import { findCodeBySourceMap } from "../hepler"
 
 interface ErrStackDrawerProps {
   errStack: ErrorStackFrames
+  appId:string;
 }
 export const ErrStackDrawer = (props: ErrStackDrawerProps) => {
-  const { errStack } = props
+  const { errStack ,appId} = props
   const [open, setOpen] = useState(false)
 
   const onClose = () => setOpen(false)
@@ -40,7 +41,7 @@ export const ErrStackDrawer = (props: ErrStackDrawerProps) => {
 
     const { filename, lineNumber, columnNumber } = errStack[index]
 
-    const data = await findCodeBySourceMap({ fileName: filename, line: lineNumber, column: columnNumber, })
+    const data = await findCodeBySourceMap({ fileName: filename, line: lineNumber, column: columnNumber,appId })
     // console.log(data)
     if (data) {
       setErrInnerHtml(data)

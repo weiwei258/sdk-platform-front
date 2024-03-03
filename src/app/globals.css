@@ -1,0 +1,24 @@
+/* @tailwind base; */
+@tailwind components;
+@tailwind utilities;
+
+
+body {
+  padding: 0;
+  margin: 0;
+  height: 100vh;
+}
+
+.code-line {
+  padding: 5px 0;
+}
+
+.heightlight {
+  background-color: yellowgreen;
+}
+
+.errdetail {
+  text-align: left;
+  width: 100%;
+  font-size: 16px;
+}
